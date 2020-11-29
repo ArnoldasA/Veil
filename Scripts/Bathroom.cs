@@ -5,7 +5,7 @@ using TMPro;
 
 public class Bathroom : MonoBehaviour
 {
-    //gameobjects and audio
+    //Gameobjects and audio to be used for bathroom event
     #region Declaration
     public GameObject m;
     public GameObject wall;
@@ -25,7 +25,7 @@ public class Bathroom : MonoBehaviour
     public List <TextMeshProUGUI> Voices;
     #endregion
     // Start is called before the first frame update
-    //text fading
+    //Before the event the text and lights will be disabled 
     void Start()
     {
         
@@ -40,6 +40,7 @@ public class Bathroom : MonoBehaviour
 
 
     #region StartingCoroutines
+    //Coroutines that start depending on which trigger the player is interacting with
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
@@ -61,7 +62,7 @@ public class Bathroom : MonoBehaviour
     }
     #endregion
     #region Enumerations
-    //Door closes behind player and plays event
+    //When the player enters the Bathroom the door will close and lights will flicker until the player leaves the room.
     IEnumerator EnterEvent()
     {
 
@@ -96,8 +97,9 @@ public class Bathroom : MonoBehaviour
 
     }
 
-    //Triggers are used for event detection
-    //This event triggers after the player leaves the bathroom
+    
+    //When player leaves the room the door will shut behind them and the next event will trigger where the Monster model will appear for a few seconds.
+    //During this the orginal bathroom scene will change as a new door will appear, which was hidden behind a wall.
     IEnumerator ExitEvent()
     {
 
@@ -141,7 +143,7 @@ public class Bathroom : MonoBehaviour
         Light3.GetComponentInChildren<Light>().enabled = true;
         yield return null;
     }
-    //text to be displayed during event
+    //Text that will appear during high intensinity sequences.
     IEnumerator Text()
     {
         foreach (var text in Voices)
