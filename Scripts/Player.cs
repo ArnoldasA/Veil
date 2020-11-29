@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
+//Declaring all variables for character movement script
 {
     public float speed = 4;
     private int rot;
@@ -10,31 +11,19 @@ public class Player : MonoBehaviour
     public CharacterController controller;
     public Transform ground;
     public float groundDistance = 0.4f;
-    public LayerMask groundMask;
+    public LayerMask groundMask;//Making sure we are on the floor with layermasks
 
     private bool paused;
     
-     private float walkAudioSpeed = 0.4f;
-    private float walkAudioTimer = 0.0f;
-
-     private bool isWalking  = false;
-
-    private Vector3 lastpos = new Vector3(0, 0, 0);
-    
-
     Vector3 velocity;
     bool grounded;
 
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
 
        
-
+//Checking if the player is touching the ground
         grounded = Physics.CheckSphere(ground.position, groundDistance, groundMask);
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
@@ -43,6 +32,7 @@ public class Player : MonoBehaviour
         {
             velocity.y = -2f;
         }
+        //Pausing game and showing mouse // Should be moved to a different function
         if (paused)
         {
             
@@ -58,39 +48,23 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.lockState = CursorLockMode.Locked;
         }
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             paused = !paused;
         }
-        
+        //Assigning movement vector to the Unity character controller
         Vector3 move = transform.right * x + transform.forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
-
+      
+      //Gravity vector applied to chracter 
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
 
         
     }
-        /*
-    public void SavePlayer()
-    {
-        SaveGame.SavePlayer(this);
-    }
-
-    public void LoadPlayer()
-    {
-        PlayerData data = SaveGame.LoadPlayer();
-            if (data != null)
-        {
-            Vector3 position;
-            position.x = data.position[0];
-            position.y = data.position[1];
-            position.z = data.position[2];
-            transform.position = position;
-        }
-    }
-    */
+   
 
 }
